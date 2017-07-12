@@ -9,9 +9,7 @@ const config = {
   secrets: { jwt: process.env.JWT }
 };
 
-process.env.NODE_ENV = process.env.NODE_ENV || config.dev;
-
-config.env = process.env.NODE_ENV;
+config.env = process.env.NODE_ENV || config.dev;
 let envConfig;
 try {
   envConfig = require('./' + config.env);
