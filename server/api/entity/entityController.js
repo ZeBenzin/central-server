@@ -44,3 +44,12 @@ exports.put = (req, res, next) => {
     }
   });
 };
+
+exports.suggestEntities = (req, res, next) => {
+  const searchedText = req.body.name;
+  Entity.find({'name': {'$regex': searchedText, '$options': 'i'}})
+    .then(entities => {
+      res.status(200).json(entities);
+    })
+    .catch(err => next(err));
+};

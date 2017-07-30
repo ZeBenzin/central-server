@@ -10,4 +10,7 @@ router.route('/:id')
   .get(controller.get)
   .put(controller.put);
 
+router.route('/suggest')
+  .post(controller.suggestEntities);
+
 module.exports = router;
