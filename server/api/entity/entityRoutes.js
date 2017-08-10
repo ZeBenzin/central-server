@@ -10,6 +10,9 @@ router.route('/:id')
   .get(controller.get)
   .put(controller.put);
 
+router.route('/:id/signatures')
+  .get(controller.getSignatures);
+
 router.route('/suggest')
   .post(controller.suggestEntities);
 

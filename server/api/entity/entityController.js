@@ -19,7 +19,7 @@ exports.params = (req, res, next, id) => {
 };
 
 exports.get = (req, res, next) => {
-  res.status(200).send(req);
+  res.status(200).send(req.entity);
 };
 
 exports.post = (req, res, next) => {
@@ -52,4 +52,22 @@ exports.suggestEntities = (req, res, next) => {
       res.status(200).json(entities);
     })
     .catch(err => next(err));
+};
+
+exports.getSignatures = (req, res, next) => {
+  const { signatures } = req.entity;
+  const convertedSignatures = _.map(signatures, sig => mongoose.Types.ObjectId(sig));
+  Entity.find({
+    '_id': {
+      $in: convertedSignatures
+    }
+  })
+  .then(entities => {
+    const responsePayload = {
+      entities,
+      signedEntity: req.entity
+    };
+    res.status(200).json(responsePayload);
+  })
+  .catch(err => next(err));
 };
