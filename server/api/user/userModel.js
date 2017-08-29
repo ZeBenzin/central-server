@@ -21,7 +21,7 @@ UserSchema.pre('save', function (next) {
 });
 
 UserSchema.methods = {
-  authenticate: (plainTextPword) => (bcrypt.compareSync(plainTextPword, this.password)),
+  authenticate: (plainTextPword, hashedPassword) => (bcrypt.compareSync(plainTextPword, hashedPassword)),
   encryptPassword: (plainTextPword) => {
     if (!plainTextPword) {
       return '';

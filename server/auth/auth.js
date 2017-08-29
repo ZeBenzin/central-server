@@ -37,13 +37,12 @@ exports.verifyUser = () => {
     if (!username || !password) {
       res.status(400).send('You need a username and password');
     }
-
     User.findOne({ email: username })
       .then(user => {
         if (!user) {
           res.status(401).send('No such user in the database');
         } else {
-          if (!user.authenticate(password)) {
+          if (!user.authenticate(password, user.password)) {
             res.status(401).send('Incorrect username or passwword');
           } else {
             req.user = user;
@@ -51,7 +50,9 @@ exports.verifyUser = () => {
           }
         }
       })
-      .catch(() => next(new Error('Error fetching the user')));
+      .catch((err) => {
+        next(new Error('Error fetching the user'));
+      });
   };
 };
 
